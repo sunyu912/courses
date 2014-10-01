@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>CS356</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1"> 
+		 
+	
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0a4.1/jquery.mobile-1.0a4.1.min.css" />
+	<script src="http://code.jquery.com/jquery-1.5.min.js"></script>
+	<link rel="stylesheet" href="css/jqm-docs.css"/>
+	
+	<script src="http://code.jquery.com/mobile/1.0a4.1/jquery.mobile-1.0a4.1.min.js"></script>
+
+        <script>
+    
+    function resetCheckboxes() {
+    	$('.custom').each(function(index, value) {
+    		console.log("##");				
+			$(this).attr('checked', false).checkboxradio("refresh");				
+		});
+    }
+        
+    function getNextSentence() {
+	    var candidates = new Array();
+	    var answerStr = '';
+		$('.custom').each(function(index, value) {				
+			if ($(this).is(':checked')) {
+				var answer = $(this).attr('name');
+				candidates.push(answer);
+				answerStr = answerStr + answer + ",";
+			} else {
+				console.log("Not received");
+			}
+		});
+		console.log(answerStr);
+        $.ajax(
+        {
+            type : "GET",
+            url  : "/submit",
+            data : {
+            	answer : answerStr
+            },
+            success : function(result) {
+                //var data = JSON.parse(result);
+                
+            },
+            error: function (jqXHR, exception) {
+                //alert("Failed");
+            }
+        });
+    }
+    
+    </script>
+	</head>
+	<body>
+		
+	<div data-role="page">
+		
+		<div data-role="header" data-theme="b">
+			<h1>CS 356</h1>
+			<a href="" data-icon="home" data-iconpos="notext" data-direction="reverse" class="ui-btn-right jqm-home">Home</a>
+		</div><!-- /header -->
+	
+		<div data-role="content">	
+				<div data-role="fieldcontain">
+				 	<fieldset data-role="controlgroup">				 					 	
+					 <input class="custom" type="checkbox" name="A" id="A"/><label for="A">A</label>
+					 <input class="custom" type="checkbox" name="B" id="B"/><label for="B">B</label>
+					 <input class="custom" type="checkbox" name="C" id="C"/><label for="C">C</label>
+					 <input class="custom" type="checkbox" name="D" id="D"/><label for="D">D</label>
+					 <input class="custom" type="checkbox" name="E" id="E"/><label for="E">E</label>
+					 <input class="custom" type="checkbox" name="F" id="F"/><label for="F">F</label>
+					 <input class="custom" type="checkbox" name="G" id="G"/><label for="G">G</label>
+					 <input class="custom" type="checkbox" name="H" id="H"/><label for="H">H</label>
+					 <input class="custom" type="checkbox" name="I" id="I"/><label for="I">I</label>					 					 
+				</fieldset>
+		</div>
+				
+		
+		<input type="submit" value="Submit" onclick="getNextSentence()">
+		<input type="button" value="Reset" onclick="resetCheckboxes()">
+						
+		<footer class="footer">
+			<center><p>&copy; 2014 Yu Sun @ Cal Poly Pomona</p></center>			
+		</footer>
+		</div>
+	</div>	 	
+	</body>
+</html>

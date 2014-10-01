@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>CS356 Clicker</title>
+	<link href="css/examples.css" rel="stylesheet" type="text/css">
+	<!--[if lte IE 8]><script language="javascript" type="text/javascript" src="js/excanvas.min.js"></script><![endif]-->
+	<script language="javascript" type="text/javascript" src="js/jquery.js"></script>
+	<script language="javascript" type="text/javascript" src="js/jquery.flot.js"></script>
+	<script language="javascript" type="text/javascript" src="js/jquery.flot.categories.js"></script>			
+	
+	<script type="text/javascript">
+
+	$(function() {
+
+$.ajax(
+        {
+            type : "GET",
+            url  : "/count",
+            data : {            	
+            },
+            success : function(result) {                
+                console.log(result);                
+                if (result) {					
+					$('#count').text(result);
+                } else {
+                	console.log("failed");                    
+                }
+            },
+            error: function (jqXHR, exception) {
+                console.log("failed loading");
+            }
+        });
+
+
+$.ajax(
+        {
+            type : "GET",
+            url  : "/stat",
+            data : {            	
+            },
+            success : function(result) {                
+                console.log(result);
+                //var data2 = JSON.parse(result);
+                if (result) {
+					var data = [];
+					$.each( result, function( index, value ) {
+						console.log("test: " + index + " value: " + value);
+						data.push([index, value]);
+					});
+				
+					$.plot("#placeholder", [ data ], {
+						series: {
+							bars: {
+								show: true,
+								barWidth: 0.6,
+								align: "center"
+							}
+						},
+						xaxis: {
+							mode: "categories",
+							tickLength: 0
+						}
+					});
+
+                } else {
+                	console.log("failed");                    
+                }
+            },
+            error: function (jqXHR, exception) {
+                console.log("failed loading");
+            }
+        });
+          		
+	});
+
+	</script>
+</head>
+<body>
+
+	<div id="header">
+		<h2>The Class of CS356</h2>
+	</div>
+
+	
+	
+	<div id="content">
+		<p>Total Submission: <label id="count"></label> </p>	
+		<div class="demo-container">
+			<div id="placeholder" class="demo-placeholder"></div>
+		</div>
+	</div>
+
+	<div id="footer">
+		Copyright &copy; 2014 Yu Sun @ Cal Poly Pomona
+	</div>
+
+</body>
+</html>
+
+
+
+
+
