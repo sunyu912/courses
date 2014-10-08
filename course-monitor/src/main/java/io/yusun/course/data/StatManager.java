@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 public class StatManager {
 	
-	private Map<String, List<String>> statMap = new HashMap<String, List<String>>();
+	private Map<String, Set<String>> statMap = new HashMap<String, Set<String>>();
 	private List<String> optionList = new ArrayList<String>(){{
 		add("A");
 		add("B");
@@ -35,10 +36,10 @@ public class StatManager {
 	}
 	
 	public void resetMap() {
-		statMap = new HashMap<String, List<String>>();
+		statMap = new HashMap<String, Set<String>>();
 	}
 	
-	public void addSubmission(String userId, List<String> answers) {
+	public void addSubmission(String userId, Set<String> answers) {
 		statMap.put(userId, answers);
 	}
 	
@@ -56,7 +57,7 @@ public class StatManager {
 			countMap.put(option, 0);
 		}
 		
-		for(List<String> answerList : statMap.values()) {
+		for(Set<String> answerList : statMap.values()) {
 			for(String answer : answerList) {
 				if (optionList.contains(answer)) {
 					Integer count = countMap.get(answer);

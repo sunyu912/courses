@@ -5,7 +5,9 @@ import io.yusun.course.data.StatManager;
 import io.yusun.course.repositories.StatusRepository;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -81,7 +83,11 @@ public class WebController {
 	    }
 	    
 	    String userId = request.getSession().getId();
-	    StatManager.get().addSubmission(userId, Arrays.asList(answers.split(",")));
+	    Set<String> submittedAnswerSet = new HashSet<String>();
+	    for (String s : Arrays.asList(answers.split(","))) {
+	    		submittedAnswerSet.add(s);
+	    }
+	    StatManager.get().addSubmission(userId, submittedAnswerSet);
 	    
 	    response.setContentType("text/html; charset=utf-8");
 	    response.setStatus(200);        
