@@ -54,18 +54,24 @@ public class WebController {
             HttpServletResponse response) throws Exception {
 	    StatManager.get().resetMap();
 	    
+	    logger.info("Reset done: " + StatManager.get().getTotalSubmission());
+	    
         response.setStatus(200);
         response.getWriter().write("success");
     }
 	
 	@RequestMapping(value = "stat", method = RequestMethod.GET)
 	public Map<String, Integer> getStat() {
-		return StatManager.get().getStatMap();
+		Map<String, Integer> map = StatManager.get().getStatMap();
+		logger.info("Get result: " + map);
+		return map;
 	}
 	
 	@RequestMapping(value = "stat/view", method = RequestMethod.GET)
 	public Map<String, Integer> getStatView() {
-		return StatManager.get().getStatMap();
+		Map<String, Integer> map = StatManager.get().getStatMap();
+		logger.info("Get result: " + map);
+		return map;
 	}
 	
 	@RequestMapping(value = "count", method = RequestMethod.GET)
@@ -77,7 +83,8 @@ public class WebController {
 	public void submitAnswer(
 			@RequestParam(value = "answer", required = true) String answers,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
-	    logger.info("Request from session ID: " + request.getSession().getId() + " answer: " + answers);
+	    logger.info("Request from session ID: " + request.getSession().getId() 
+	    		+ " answer: " + answers + " total: " + StatManager.get().getTotalSubmission());
 	    if (answers == null || answers.isEmpty()) {
 	    	return;
 	    }

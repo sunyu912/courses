@@ -9,7 +9,8 @@ import java.util.TreeMap;
 
 public class StatManager {
 	
-	private Map<String, Set<String>> statMap = new HashMap<String, Set<String>>();
+	private volatile Map<String, Set<String>> statMap = new HashMap<String, Set<String>>();
+	
 	private List<String> optionList = new ArrayList<String>(){{
 		add("A");
 		add("B");
@@ -35,11 +36,11 @@ public class StatManager {
 		return instance;
 	}
 	
-	public void resetMap() {
+	public synchronized void resetMap() {
 		statMap = new HashMap<String, Set<String>>();
 	}
 	
-	public void addSubmission(String userId, Set<String> answers) {
+	public synchronized void addSubmission(String userId, Set<String> answers) {
 		statMap.put(userId, answers);
 	}
 	
